@@ -9,7 +9,13 @@ module.exports = {
   },
   save: function(req, res) {
     db.Book
-      .create(req.body)
+      .create({
+        title: req.body.title,
+        authors: req.body.authors,
+        description: req.body.description,
+        link: req.body.link,
+        image: req.body.link
+      })
       .then(model => res.json(model))
       .catch(err => res.status(422).json(err))
   },
