@@ -38,7 +38,7 @@ export default function BookCard(props) {
             }
           </Typography>
           <Typography variant="body1">
-            Description goes here
+            {props.description}
           </Typography>
         </CardContent>
         <CardMedia

@@ -22,8 +22,22 @@ export default function Search() {
     API.searchBook(query)
       .then(res => {
         // results = res.data.items;
-        setResults(res.data.items);
-        console.log(res.data.items)
+        // setResults(res.data.items);
+        let searchResults = res.data.items;
+        let neatResults = [];
+        searchResults.forEach(result => {
+          let bookInfo = {};
+          bookInfo.title = result.volumeInfo.title;
+          bookInfo.authors = result.volumeInfo.authors;
+          bookInfo.image = result.volumeInfo.imageLinks.thumbnail;
+          bookInfo.link = result.volumeInfo.previewLink;
+          result.volumeInfo.description ?
+            bookInfo.description = result.volumeInfo.description :
+            bookInfo.description = "No description available for this book."
+          neatResults.push(bookInfo);
+        });
+
+        setResults(neatResults);
       })
       .catch(err => console.log(err));
   };
@@ -39,11 +53,12 @@ export default function Search() {
         <div className="results-container">
           {results.map(result => (
             <BookCard
-              key={result.volumeInfo.title}
-              title={result.volumeInfo.title}
-              authors={result.volumeInfo.authors}
-              imgAlt={`Cover of '${result.volumeInfo.title}'`}
-              img={result.volumeInfo.imageLinks.thumbnail}
+              key={result.title}
+              title={result.title}
+              authors={result.authors}
+              description={result.description}
+              imgAlt={`Cover of '${result.title}'`}
+              img={result.image}
             />
           ))}
         </div>
