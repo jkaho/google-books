@@ -1,6 +1,6 @@
-import db from "../models";
+const db = require("../models");
 
-module.exports = {
+const booksController = {
   getAll: function(req, res) {
     db.Book
       .findAll()
@@ -10,11 +10,12 @@ module.exports = {
   save: function(req, res) {
     db.Book
       .create({
+        bookId: req.body.id,
         title: req.body.title,
         authors: req.body.authors,
         description: req.body.description,
         link: req.body.link,
-        image: req.body.link
+        image: req.body.image
       })
       .then(model => res.json(model))
       .catch(err => res.status(422).json(err))
@@ -27,3 +28,5 @@ module.exports = {
       .catch(err => res.status(422).json(err))
   }
 }
+
+module.exports = booksController;

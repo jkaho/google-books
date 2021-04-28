@@ -25,18 +25,26 @@ export default function Search() {
         // setResults(res.data.items);
         let searchResults = res.data.items;
         let neatResults = [];
+        console.log(searchResults)
         searchResults.forEach(result => {
           let bookInfo = {};
+          bookInfo.id = result.id;
           bookInfo.title = result.volumeInfo.title;
-          bookInfo.authors = result.volumeInfo.authors;
-          bookInfo.image = result.volumeInfo.imageLinks.thumbnail;
-          bookInfo.link = result.volumeInfo.previewLink;
+          result.volumeInfo.authors ?
+            bookInfo.authors = result.volumeInfo.authors :
+            bookInfo.authors = ""
+          result.volumeInfo.imageLinks.thumbnail ?
+            bookInfo.image = result.volumeInfo.imageLinks.thumbnail :
+            bookInfo.image = ""
+          result.volumeInfo.previewLink ?
+            bookInfo.link = result.volumeInfo.previewLink :
+            bookInfo.link = ""
           result.volumeInfo.description ?
             bookInfo.description = result.volumeInfo.description :
             bookInfo.description = "No description available for this book."
           neatResults.push(bookInfo);
         });
-
+        console.log(neatResults)
         setResults(neatResults);
       })
       .catch(err => console.log(err));
@@ -53,7 +61,8 @@ export default function Search() {
         <div className="results-container">
           {results.map(result => (
             <BookCard
-              key={result.title}
+              key={result.id}
+              id={result.id}
               title={result.title}
               authors={result.authors}
               description={result.description}

@@ -8,7 +8,7 @@ const API = {
     return axios.get("/api/books");
   },
   saveBook: function(bookData) {
-    return axios.create("/api/books", bookData);
+    return axios.post("/api/books", bookData);
   },
   removeBook: function(id) {
     return axios.delete("/api/books/" + id);
