@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
+import API from "../../utils/API";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -20,6 +21,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SearchForm() {
   const classes = useStyles();
+  const [search, setSearch] = useState("");
+  const [results, setResults] = useState([]);
+  const searchRef = useRef();
+
+  const handleSearchInput = () => {
+    setSearch(searchRef.current.children[1].children[0].value);
+  };
+
+  const handleSearchButtonClick = () => {
+    API.searchBook(search)
+      .then(res => {
+        setResults(res.data.items);
+      })
+      .catch(err => console.log(err))
+  };
 
   return (
     <div className="search-container">
@@ -28,6 +44,8 @@ export default function SearchForm() {
           id="outlined-basic"
           label="Search for a book title"
           variant="outlined" 
+          ref={searchRef}
+          onChange={handleSearchInput}
         />
         <Button
           variant="contained"
@@ -35,6 +53,7 @@ export default function SearchForm() {
           className={classes.button}
           startIcon={<SearchIcon />}
           disableElevation
+          onClick={handleSearchButtonClick}
         >
           Search
         </Button>      
