@@ -5,6 +5,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import "./style.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,8 +27,8 @@ export default function Navbar() {
           <Typography variant="h6" className={classes.title}>
             Google Books
           </Typography>
-          <Link to="/">Search</Link>
-          <Link to="/saved">Saved</Link>
+          <Button color="inherit"><Link id="search-navlink" to="/">Search</Link></Button>
+          <Button color="inherit"><Link id="saved-navlink" to="/saved">Saved</Link></Button>
         </Toolbar>
       </AppBar>
     </div>
