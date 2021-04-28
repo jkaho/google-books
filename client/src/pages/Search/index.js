@@ -4,7 +4,7 @@ import SearchForm from "../../components/SearchForm";
 import BookCard from "../../components/BookCard";
 
 export default function Search() {
-  const [search, setSearch] = useState("");
+  // const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
   const searchRef = useRef();
   // let results = [];
@@ -18,7 +18,7 @@ export default function Search() {
 
   const handleSearchButtonClick = () => {
     const query = searchRef.current.children[1].children[0].value;
-    setSearch(query);
+    // setSearch(query);
     API.searchBook(query)
       .then(res => {
         // results = res.data.items;
@@ -59,6 +59,7 @@ export default function Search() {
               description={result.description}
               imgAlt={`Cover of '${result.title}'`}
               img={result.image}
+              link={result.link}
             />
           ))}
         </div>

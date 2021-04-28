@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import { CardActionArea, CardActions, CardContent, CardMedia, Typography, Button } from "@material-ui/core";
 
@@ -49,7 +49,7 @@ export default function BookCard(props) {
         />
       </CardActionArea>
       <CardActions>
-        <Button variant="contained">View</Button>
+        <Button variant="contained"><a href={props.link} target="_blank" rel="noreferrer noopener">View</a></Button>
         <Button variant="contained">Save</Button>
       </CardActions>
     </Card>
