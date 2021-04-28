@@ -3,7 +3,7 @@ const db = require("../models");
 const booksController = {
   getAll: function(req, res) {
     db.Book
-      .findAll()
+      .find({})
       .then(model => res.json(model))
       .catch(err => res.status(422).json(err))
   },
@@ -22,8 +22,7 @@ const booksController = {
   },
   delete: function(req, res) {
     db.Book
-      .findById({ _id: req.params.id })
-      .then(model => model.remove())
+      .deleteOne({ bookId: req.params.id })
       .then(model => res.json(model))
       .catch(err => res.status(422).json(err))
   }

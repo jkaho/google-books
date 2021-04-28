@@ -29,11 +29,22 @@ export default function BookCard(props) {
       description: props.description,
       link: props.link,
       image: props.img
-    }
-    console.log(book);
+    };
+
     API.saveBook(book)
-      .then(res => console.log(`Your book has been saved!`))
+      .then(res => console.log(`'${props.title}' has been saved!`))
       .catch(err => console.log(err));
+  };
+
+  const handleRemoveButtonClick = () => {
+    const id = props.id;
+
+    API.removeBook(id)
+      // .then(res => console.log(`'${props.title}' has been removed from your saved books.`))
+      .then(res => console.log(res))
+      .then(() => window.location.reload())
+      // .then(() => loadSavedBooks())
+      .catch(err => console.log(err))
   };
 
   return (
@@ -66,8 +77,14 @@ export default function BookCard(props) {
         />
       </CardActionArea>
       <CardActions>
-        <Button variant="contained"><a href={props.link} target="_blank" rel="noreferrer noopener">View</a></Button>
-        <Button variant="contained" onClick={handleSaveButtonClick}>Save</Button>
+        {window.location.href === "http://localhost:3000/" ?
+          <div>
+            <Button variant="contained"><a href={props.link} target="_blank" rel="noreferrer noopener">View</a></Button>
+            <Button variant="contained" onClick={handleSaveButtonClick}>Save</Button>
+          </div>
+          : <div><Button variant="contained" onClick={handleRemoveButtonClick}>Remove</Button></div>
+        }
+
       </CardActions>
     </Card>
   )

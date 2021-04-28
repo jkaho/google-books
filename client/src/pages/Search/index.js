@@ -44,7 +44,6 @@ export default function Search() {
             bookInfo.description = "No description available for this book."
           neatResults.push(bookInfo);
         });
-        console.log(neatResults)
         setResults(neatResults);
       })
       .catch(err => console.log(err));
@@ -57,7 +56,7 @@ export default function Search() {
         referrer={searchRef}
         onClick={handleSearchButtonClick}
       />
-      {results.length > 1 ? 
+      {results.length > 0 ? 
         <div className="results-container">
           {results.map(result => (
             <BookCard
