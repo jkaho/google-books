@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import { CardActionArea, CardActions, CardContent, CardMedia, Typography, Button } from "@material-ui/core";
+// import Card from "@material-ui/core/Card";
+// import { CardActionArea, CardActions, CardContent, CardMedia, Typography, Button, Grid } from "@material-ui/core";
 import API from "../../utils/API";
+import "./style.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,53 +37,88 @@ export default function BookCard(props) {
       .catch(err => console.log(err));
   };
 
-  console.log(props.saved)
-
   return (
-    <Card
-      variant="outlined"
-      width="500px"
-      className={classes.root}
-    >
-      <CardActionArea>
-        <CardContent>
-          <Typography variant="h5">
-            {props.title}
-          </Typography>
-          <Typography variant="subtitle1">
-            By&nbsp;
-            {props.authors ? props.authors.map(author => (
-              author 
-              )) : "Anonymous"
-            }
-          </Typography>
-          <Typography variant="body1">
-            {props.description}
-          </Typography>
-        </CardContent>
-        <CardMedia
-          component="img"
-          alt={props.imgAlt}
-          image={props.img}
-          className={classes.image}
-        />
-      </CardActionArea>
-      <CardActions>
-        {window.location.href === "http://localhost:3000/" ?
-          <div>
-            <Button variant="contained"><a href={props.link} target="_blank" rel="noreferrer noopener">View</a></Button>
-            <Button
-              variant="contained"
-              onClick={handleSaveButtonClick}
-              disabled={props.saved ? true : false}
-            >
-              Save
-            </Button>
+    <div className="book-card">
+      <div className="book-thumbnail">
+        <div className="book-shadow">
+          <img src={props.img} alt={props.imgAlt}></img>
+        </div>
+        <button id="view-book-btn"><a href={props.link} target="_blank" rel="noreferrer noopener">View on Google</a></button>
+      </div>
+      <div className="book-content">
+        <div className="book-content-heading">
+          <div className="heading-col1">
+            <h4>{props.title}</h4>
           </div>
-          : <div><Button variant="contained" onClick={() => props.onClick(props.id)}>Remove</Button></div>
-        }
+          <div className="heading-col2">
+            <div className="book-actions">
+              {window.location.href === "http://localhost:3000/" ?
+                <div>
+                  <button id="save-book-btn"
+                    onClick={handleSaveButtonClick}
+                    disabled={props.saved ? true : false}
+                  >
+                    Save
+                  </button>
+                </div>
+                : <div><button id="remove-book-btn" onClick={() => props.onClick(props.id)}>Remove</button></div>
+              }
+            </div>
+          </div>
+        </div>
+        <div className="book-content-authors">
+          {props.authors ? props.authors.map(author => (
+            author 
+            )) : "No author"
+          }
+        </div>
+        <div className="book-content-description">
+          {props.description}
+        </div>
+      </div>
+    </div>
+    // <Card
+    //   variant="outlined"
+    //   width="500px"
+    //   className={classes.root}
+    // >
+    //     <CardContent>
+    //       <Typography variant="h5">
+    //         {props.title}
+    //       </Typography>
+    //       <Typography variant="subtitle1">
+    //         By&nbsp;
+    //         {props.authors ? props.authors.map(author => (
+    //           author 
+    //           )) : "Anonymous"
+    //         }
+    //       </Typography>
+    //       <Typography variant="body1">
+    //         {props.description}
+    //       </Typography>
+    //     </CardContent>
+    //     <CardMedia
+    //       component="img"
+    //       alt={props.imgAlt}
+    //       image={props.img}
+    //       className={classes.image}
+    //     />
+    //   <CardActions>
+        // {window.location.href === "http://localhost:3000/" ?
+        //   <div>
+        //     <Button variant="contained"><a href={props.link} target="_blank" rel="noreferrer noopener">View</a></Button>
+        //     <Button
+        //       variant="contained"
+        //       onClick={handleSaveButtonClick}
+        //       disabled={props.saved ? true : false}
+        //     >
+        //       Save
+        //     </Button>
+        //   </div>
+        //   : <div><Button variant="contained" onClick={() => props.onClick(props.id)}>Remove</Button></div>
+        // }
 
-      </CardActions>
-    </Card>
+    //   </CardActions>
+    // </Card>
   )
 }

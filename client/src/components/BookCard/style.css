@@ -1,0 +1,98 @@
+.book-card {
+  border: 1px solid rgb(221, 221, 221);
+  border-radius: 3px;
+  padding: 10px;
+  max-width: 600px;
+  height: 220px;
+  margin: 20px auto;
+  overflow: auto;
+  text-align: left;
+  background: white;
+}
+
+.book-content, .book-thumbnail {
+  display: inline-block;
+}
+
+.book-thumbnail {
+  width: 128px;
+}
+
+.book-shadow {
+  box-shadow: 2px 2px 5px rgb(224, 224, 224);
+}
+
+.book-content {
+  width: 440px;
+  vertical-align: top;
+  padding: 5px 15px;
+  padding-right: 0;
+}
+
+.book-content-heading h4 {
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+.heading-col1, .heading-col2 {
+  display: inline-block;
+}
+
+.heading-col1 {
+  width: 80%;
+}
+
+.heading-col2 {
+  height: 100%;
+  vertical-align: top;
+  padding-left: 10px;
+}
+
+#view-book-btn, #save-book-btn, #remove-book-btn {
+  padding: 5px;
+  border-radius: 2px;
+  background: white;
+  border: 1px solid rgb(87, 161, 247);
+  cursor: pointer;
+}
+
+#view-book-btn {
+  display: block;
+  margin: 5px auto;
+}
+
+#view-book-btn a {
+  color: rgb(87, 161, 247);
+  text-decoration: none;
+}
+
+#save-book-btn {
+  color: rgb(87, 161, 247);
+  margin: 0 auto;  
+  width: 70px;
+}
+
+#save-book-btn:hover {
+  background: rgb(87, 161, 247);
+  color: white;
+}
+
+#remove-book-btn {
+  border: 1px solid rgb(214, 75, 82);
+  color: rgb(214, 75, 82);
+}
+
+#remove-book-btn:hover {
+  background: rgb(214, 75, 82);
+  color: white;
+}
+
+.book-content-authors {
+  margin-bottom: 10px;
+  color: rgb(173, 173, 173);
+  font-size: 14px;
+}
+
+.book-content-description {
+  font-size: 14px;
+}

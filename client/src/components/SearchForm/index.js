@@ -1,20 +1,24 @@
 import React, { useEffect, useState, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import clsx from 'clsx';
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
+import FormControl from "@material-ui/core/FormControl";
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import "./style.css";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '25ch'
-    },
-  },
   button: {
-    // margin: theme.spacing(1),
-    width: "fit-content",
-    height: "55px"
+  },
+  margin: {
+    margin: theme.spacing(2),
+  },
+  textField: {
+    width: '40ch',
   },
 }));
 
@@ -22,24 +26,32 @@ export default function SearchForm(props) {
   const classes = useStyles();
   return (
     <div className="search-container">
-      <form className={classes.root} noValidate autoComplete="off">
-        <TextField
-          id="outlined-basic"
+      <form noValidate autoComplete="off">
+        {/* <TextField
+          id="standard-basic"
           label="Search for a book title"
-          variant="outlined" 
+          variant="standard" 
           ref={props.referrer}
-          // onChange={props.onChange}
-        />
-        <Button
-          variant="contained"
-          color="secondary"
-          className={classes.button}
-          startIcon={<SearchIcon />}
-          disableElevation
-          onClick={props.onClick}
-        >
-          Search
-        </Button>      
+          onChange={props.onChange}
+        /> */}
+        <FormControl className={clsx(classes.margin, classes.textField)} variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-search">Search for a book title</InputLabel>
+          <OutlinedInput
+            ref={props.referrer}
+            id="outlined-adornment-search"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  className={classes.button}
+                  onClick={props.onClick}
+                >
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            }
+            labelWidth={160}
+          />
+        </FormControl>      
       </form>
     </div>
   )

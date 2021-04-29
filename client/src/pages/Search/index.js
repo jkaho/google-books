@@ -3,6 +3,7 @@ import API from "../../utils/API";
 import SearchForm from "../../components/SearchForm";
 import BookCard from "../../components/BookCard";
 import { CenterFocusStrongOutlined } from "@material-ui/icons";
+import "./style.css";
 
 export default function Search() {
   // const [search, setSearch] = useState("");
@@ -24,12 +25,13 @@ export default function Search() {
   }, []);
 
   const handleSearchButtonClick = () => {
-    const query = searchRef.current.children[1].children[0].value;
+    const query = searchRef.current.children[0].value;
     // setSearch(query);
     API.searchBook(query)
       .then(res => {
         // results = res.data.items;
         // setResults(res.data.items);
+        searchRef.current.children[0].value = "";
         let searchResults = res.data.items;
         let neatResults = [];
         console.log(searchResults)
@@ -62,16 +64,16 @@ export default function Search() {
 
             if (bookSaved) {
               bookInfo.saved = true;
-            };
+            } else {
+              bookInfo.saved = false;
+            }
 
           function pushResults() {
-            console.log(bookInfo)
             neatResults.push(bookInfo);
-          }
+          };
 
           pushResults();
         });
-        console.log(neatResults)
         setResults(neatResults);
       })
       .catch(err => console.log(err));
@@ -92,6 +94,14 @@ export default function Search() {
         referrer={searchRef}
         onClick={handleSearchButtonClick}
       />
+      <div className="book-results-heading">
+        <div className="results-heading-col1">
+          <h2>Search Results</h2>
+        </div>
+        <div className="results-heading-col2">
+          1-20 out of 20 books
+        </div>
+      </div>
       {results.length > 0 ? 
         <div className="results-container">
           {results.map(result => (
@@ -108,7 +118,7 @@ export default function Search() {
             />
           ))}
         </div>
-        : <div className="no-results">Search results</div>
+        : <div className="no-results"></div>
       }
     </div>
   );
