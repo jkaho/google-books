@@ -2,10 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import API from "../../utils/API";
 import SearchForm from "../../components/SearchForm";
 import BookCard from "../../components/BookCard";
+import { CenterFocusStrongOutlined } from "@material-ui/icons";
 
 export default function Search() {
   // const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
+  const [savedBooks, setSavedBooks] = useState([]);
+
   const searchRef = useRef();
   // let results = [];
 
@@ -15,6 +18,10 @@ export default function Search() {
   //   console.log(value)
   //   console.log(search)
   // };
+
+  useEffect(() => {
+    loadSavedBooks();
+  }, []);
 
   const handleSearchButtonClick = () => {
     const query = searchRef.current.children[1].children[0].value;
@@ -26,6 +33,7 @@ export default function Search() {
         let searchResults = res.data.items;
         let neatResults = [];
         console.log(searchResults)
+
         searchResults.forEach(result => {
           let bookInfo = {};
           bookInfo.id = result.id;
@@ -33,7 +41,7 @@ export default function Search() {
           result.volumeInfo.authors ?
             bookInfo.authors = result.volumeInfo.authors :
             bookInfo.authors = ""
-          result.volumeInfo.imageLinks.thumbnail ?
+          result.volumeInfo.imageLinks ?
             bookInfo.image = result.volumeInfo.imageLinks.thumbnail :
             bookInfo.image = ""
           result.volumeInfo.previewLink ?
@@ -42,9 +50,37 @@ export default function Search() {
           result.volumeInfo.description ?
             bookInfo.description = result.volumeInfo.description :
             bookInfo.description = "No description available for this book."
-          neatResults.push(bookInfo);
+
+            let bookSaved = false;
+            savedBooks.forEach(savedBook => {
+              if (savedBook.bookId === result.id) {
+                bookSaved = true;
+                console.log("it's saved!")
+                return;
+              } 
+            });
+
+            if (bookSaved) {
+              bookInfo.saved = true;
+            };
+
+          function pushResults() {
+            console.log(bookInfo)
+            neatResults.push(bookInfo);
+          }
+
+          pushResults();
         });
+        console.log(neatResults)
         setResults(neatResults);
+      })
+      .catch(err => console.log(err));
+  };
+
+  const loadSavedBooks = () => {
+    API.getSavedBooks()
+      .then(res => {
+        setSavedBooks(res.data);
       })
       .catch(err => console.log(err));
   };
@@ -68,6 +104,7 @@ export default function Search() {
               imgAlt={`Cover of '${result.title}'`}
               img={result.image}
               link={result.link}
+              saved={result.saved}
             />
           ))}
         </div>

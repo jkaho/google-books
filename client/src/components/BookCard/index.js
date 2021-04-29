@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import { CardActionArea, CardActions, CardContent, CardMedia, Typography, Button } from "@material-ui/core";
@@ -36,16 +36,7 @@ export default function BookCard(props) {
       .catch(err => console.log(err));
   };
 
-  const handleRemoveButtonClick = () => {
-    const id = props.id;
-
-    API.removeBook(id)
-      // .then(res => console.log(`'${props.title}' has been removed from your saved books.`))
-      .then(res => console.log(res))
-      .then(() => window.location.reload())
-      // .then(() => loadSavedBooks())
-      .catch(err => console.log(err))
-  };
+  console.log(props.saved)
 
   return (
     <Card
@@ -80,9 +71,15 @@ export default function BookCard(props) {
         {window.location.href === "http://localhost:3000/" ?
           <div>
             <Button variant="contained"><a href={props.link} target="_blank" rel="noreferrer noopener">View</a></Button>
-            <Button variant="contained" onClick={handleSaveButtonClick}>Save</Button>
+            <Button
+              variant="contained"
+              onClick={handleSaveButtonClick}
+              disabled={props.saved ? true : false}
+            >
+              Save
+            </Button>
           </div>
-          : <div><Button variant="contained" onClick={handleRemoveButtonClick}>Remove</Button></div>
+          : <div><Button variant="contained" onClick={() => props.onClick(props.id)}>Remove</Button></div>
         }
 
       </CardActions>

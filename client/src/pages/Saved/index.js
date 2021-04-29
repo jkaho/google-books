@@ -18,6 +18,17 @@ export default function Saved() {
       .catch(err => console.log(err));
   };
 
+  const handleRemoveButtonClick = (id) => {
+    // const id = props.id;
+
+    API.removeBook(id)
+      // .then(res => console.log(`'${props.title}' has been removed from your saved books.`))
+      .then(res => console.log(res))
+      // .then(() => window.location.reload())
+      .then(() => loadSavedBooks())
+      .catch(err => console.log(err))
+  };
+
   return (
     <div>
       <div className="saved-container">
@@ -32,6 +43,7 @@ export default function Saved() {
           imgAlt={`Cover of '${book.title}'`}
           img={book.image}
           link={book.link}
+          onClick={handleRemoveButtonClick}
           />
           )) : <div className="no-saved-books">No saved books</div>
         }
