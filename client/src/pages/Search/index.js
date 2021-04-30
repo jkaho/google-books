@@ -6,29 +6,29 @@ import { CenterFocusStrongOutlined } from "@material-ui/icons";
 import "./style.css";
 
 export default function Search() {
-  // const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("google");
   const [results, setResults] = useState([]);
   const [savedBooks, setSavedBooks] = useState([]);
 
   const searchRef = useRef();
   // let results = [];
 
-  // const handleSearchInput = () => {
-    // const value = searchRef.current.children[1].children[0].value;
-  //   setSearch(value);
-  //   console.log(value)
-  //   console.log(search)
-  // };
+  const handleSearchInput = () => {
+    const value = searchRef.current.children[0].value;
+    setSearch(value);
+  };
 
   useEffect(() => {
     loadSavedBooks();
+    handleSearchButtonClick(event, search);
   }, []);
 
-  const handleSearchButtonClick = (event) => {
+  const handleSearchButtonClick = (event, search) => {
     event.preventDefault();
-    const query = searchRef.current.children[0].value;
+    // const query = searchRef.current.children[0].value;
     // setSearch(query);
-    API.searchBook(query)
+    console.log(savedBooks)
+    API.searchBook(search)
       .then(res => {
         // results = res.data.items;
         // setResults(res.data.items);
@@ -58,7 +58,6 @@ export default function Search() {
             savedBooks.forEach(savedBook => {
               if (savedBook.bookId === result.id) {
                 bookSaved = true;
-                console.log("it's saved!")
                 return;
               } 
             });
@@ -89,37 +88,43 @@ export default function Search() {
   };
 
   return (
-    <div>
+    <div className="search-page">
       <SearchForm
-        // onChange={handleSearchInput}
+        onChange={handleSearchInput}
         referrer={searchRef}
         onSubmit={handleSearchButtonClick}
+        search={search}
       />
-      <div className="book-results-heading">
-        <div className="results-heading-col1">
-          <h2>Search Results</h2>
-        </div>
-        <div className="results-heading-col2">
-          1-20 out of 20 books
-        </div>
-      </div>
       {results.length > 0 ? 
-        <div className="results-container">
-          {results.map(result => (
-            <BookCard
-              key={result.id}
-              id={result.id}
-              title={result.title}
-              authors={result.authors}
-              description={result.description}
-              imgAlt={`Cover of '${result.title}'`}
-              img={result.image}
-              link={result.link}
-              saved={result.saved}
-            />
-          ))}
+        <div>
+          <div className="book-results-heading">
+            <div className="results-heading-col1">
+              <h2>Search results</h2>
+            </div>
+            <div className="results-heading-col2">
+              1-20 out of 20 books
+            </div>
+          </div>
+          <div className="results-container">
+            {results.map(result => (
+              <BookCard
+                key={result.id}
+                id={result.id}
+                title={result.title}
+                authors={result.authors}
+                description={result.description}
+                imgAlt={`Cover of '${result.title}'`}
+                img={result.image}
+                link={result.link}
+                saved={result.saved}
+              />
+            ))}
+          </div>
         </div>
-        : <div className="no-results"></div>
+        :
+        <div className="no-results">
+          <h2>No results found</h2>
+        </div>
       }
     </div>
   );

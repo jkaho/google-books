@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function BookCard(props) {
   const classes = useStyles();
+  const [disabledButton, setDisabledButton] = useState(false);
 
   const handleSaveButtonClick = () => {
     const book = {
@@ -35,6 +36,8 @@ export default function BookCard(props) {
     API.saveBook(book)
       .then(res => console.log(`'${props.title}' has been saved!`))
       .catch(err => console.log(err));
+    
+    setDisabledButton(true);
   };
 
   // Format author array 
@@ -81,7 +84,10 @@ export default function BookCard(props) {
                 <div>
                   <button className="save-book-btn"
                     onClick={handleSaveButtonClick}
-                    disabled={props.saved ? true : false}
+                    disabled={props.saved ? true
+                      : disabledButton ? true 
+                      : false
+                    }
                   >
                     {props.saved ? "Saved" : "Save"}
                   </button>
