@@ -26,7 +26,8 @@ export default function SearchForm(props) {
   const classes = useStyles();
   return (
     <div className="search-container">
-      <form noValidate autoComplete="off">
+      <form noValidate autoComplete="off" onSubmit={props.onSubmit}
+>
         {/* <TextField
           id="standard-basic"
           label="Search for a book title"
@@ -43,7 +44,6 @@ export default function SearchForm(props) {
               <InputAdornment position="end">
                 <IconButton
                   className={classes.button}
-                  onClick={props.onClick}
                 >
                   <SearchIcon />
                 </IconButton>

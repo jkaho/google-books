@@ -37,13 +37,36 @@ export default function BookCard(props) {
       .catch(err => console.log(err));
   };
 
+  // Format author array 
+  const renderAuthors = (authors) => {
+    if (authors.length < 1) {
+      return "Unknown author(s)";
+    } else if (authors.length === 1) {
+      return `By ${authors[0]}`;
+    } else if (authors.length === 2) {
+      return `By ${authors[0]} & ${authors[1]}`;
+    } else {
+      let authorStr = "By ";
+      for (let i = 0; i < authors.length; i++) {
+        if (i < authors.length - 2) {
+          authorStr += `${authors[i]}, `;
+        } else if (i === authors.length - 2) {
+          authorStr += `${authors[i]} `;
+        } else {
+          authorStr += `& ${authors[i]}`;
+        }
+      }
+      return authorStr;
+    }
+  };
+
   return (
     <div className="book-card">
       <div className="book-thumbnail">
         <div className="book-shadow">
           <img src={props.img} alt={props.imgAlt}></img>
         </div>
-        <button id="view-book-btn"><a href={props.link} target="_blank" rel="noreferrer noopener">View on Google</a></button>
+        <button className="view-book-btn"><a href={props.link} target="_blank" rel="noreferrer noopener">View on Google</a></button>
       </div>
       <div className="book-content">
         <div className="book-content-heading">
@@ -52,25 +75,27 @@ export default function BookCard(props) {
           </div>
           <div className="heading-col2">
             <div className="book-actions">
-              {window.location.href === "http://localhost:3000/" ?
+              {window.location.href === "http://localhost:3000/saved" ?
+                <div><button className="remove-book-btn" onClick={() => props.onClick(props.id)}>Remove</button></div>
+                : 
                 <div>
-                  <button id="save-book-btn"
+                  <button className="save-book-btn"
                     onClick={handleSaveButtonClick}
                     disabled={props.saved ? true : false}
                   >
-                    Save
+                    {props.saved ? "Saved" : "Save"}
                   </button>
                 </div>
-                : <div><button id="remove-book-btn" onClick={() => props.onClick(props.id)}>Remove</button></div>
               }
             </div>
           </div>
         </div>
         <div className="book-content-authors">
-          {props.authors ? props.authors.map(author => (
+          {renderAuthors(props.authors)}
+          {/* {props.authors ? props.authors.map(author => (
             author 
             )) : "No author"
-          }
+          } */}
         </div>
         <div className="book-content-description">
           {props.description}

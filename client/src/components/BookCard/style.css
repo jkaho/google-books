@@ -48,7 +48,7 @@
   padding-left: 10px;
 }
 
-#view-book-btn, #save-book-btn, #remove-book-btn {
+.view-book-btn, .save-book-btn, .remove-book-btn {
   padding: 5px;
   border-radius: 2px;
   background: white;
@@ -56,33 +56,45 @@
   cursor: pointer;
 }
 
-#view-book-btn {
+.view-book-btn {
   display: block;
   margin: 5px auto;
 }
 
-#view-book-btn a {
+.view-book-btn a {
   color: rgb(87, 161, 247);
   text-decoration: none;
 }
 
-#save-book-btn {
+.save-book-btn {
   color: rgb(87, 161, 247);
   margin: 0 auto;  
   width: 70px;
 }
 
-#save-book-btn:hover {
+.save-book-btn:disabled {
+  border: 1px solid rgb(158, 158, 158);
+  color: rgb(158, 158, 158);
+  cursor: context-menu;
+}
+
+.save-book-btn:disabled:hover {
+  border: 1px solid rgb(158, 158, 158);
+  color: rgb(158, 158, 158);
+  background: white;
+}
+
+.save-book-btn:hover {
   background: rgb(87, 161, 247);
   color: white;
 }
 
-#remove-book-btn {
+.remove-book-btn {
   border: 1px solid rgb(214, 75, 82);
   color: rgb(214, 75, 82);
 }
 
-#remove-book-btn:hover {
+.remove-book-btn:hover {
   background: rgb(214, 75, 82);
   color: white;
 }

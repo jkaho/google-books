@@ -24,7 +24,8 @@ export default function Search() {
     loadSavedBooks();
   }, []);
 
-  const handleSearchButtonClick = () => {
+  const handleSearchButtonClick = (event) => {
+    event.preventDefault();
     const query = searchRef.current.children[0].value;
     // setSearch(query);
     API.searchBook(query)
@@ -92,7 +93,7 @@ export default function Search() {
       <SearchForm
         // onChange={handleSearchInput}
         referrer={searchRef}
-        onClick={handleSearchButtonClick}
+        onSubmit={handleSearchButtonClick}
       />
       <div className="book-results-heading">
         <div className="results-heading-col1">
