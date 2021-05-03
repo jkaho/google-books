@@ -4,7 +4,6 @@ const routes = require("./routes");
 const path = require("path");
 const PORT = process.env.PORT || 3001;
 const app = express();
-// const io = require("socket-io")(app);
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -14,11 +13,6 @@ app.use(express.json());
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
-
-// Set up socket.io for cross-browser notifs
-// io.on("connection", () => {
-//   socket.send("socket.io connected!");
-// });
 
 // API Routes
 app.use(routes);
