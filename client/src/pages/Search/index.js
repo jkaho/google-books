@@ -9,19 +9,19 @@ export default function Search() {
   const [search, setSearch] = useState("google");
   const [results, setResults] = useState([]);
   const [savedBooks, setSavedBooks] = useState([]);
+  let savedBooksStatic;
 
   const searchRef = useRef();
-  // let results = [];
-
-  const handleSearchInput = () => {
-    const value = searchRef.current.children[0].value;
-    setSearch(value);
-  };
 
   useEffect(() => {
     loadSavedBooks();
     handleSearchButtonClick(event, search);
   }, []);
+
+  const handleSearchInput = () => {
+    const value = searchRef.current.children[0].value;
+    setSearch(value);
+  };
 
   const handleSearchButtonClick = (event, search) => {
     event.preventDefault();
@@ -54,12 +54,21 @@ export default function Search() {
             bookInfo.description = "No description available for this book."
 
             let bookSaved = false;
-            savedBooks.forEach(savedBook => {
-              if (savedBook.bookId === result.id) {
-                bookSaved = true;
-                return;
-              } 
-            });
+            if (savedBooks.length > 0) {
+              savedBooks.forEach(savedBook => {
+                if (savedBook.bookId === result.id) {
+                  bookSaved = true;
+                  return;
+                } 
+              });
+            } else {
+              savedBooksStatic.forEach(savedBook => {
+                if (savedBook.bookId === result.id) {
+                  bookSaved = true;
+                  return;
+                } 
+              });
+            }
 
             if (bookSaved) {
               bookInfo.saved = true;
@@ -82,6 +91,8 @@ export default function Search() {
     API.getSavedBooks()
       .then(res => {
         setSavedBooks(res.data);
+        savedBooksStatic = res.data;
+        console.log(savedBooksStatic)
       })
       .catch(err => console.log(err));
   };

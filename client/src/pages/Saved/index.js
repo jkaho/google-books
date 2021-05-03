@@ -20,8 +20,6 @@ export default function Saved() {
   };
 
   const handleRemoveButtonClick = (id) => {
-    // const id = props.id;
-
     API.removeBook(id)
       // .then(res => console.log(`'${props.title}' has been removed from your saved books.`))
       .then(res => console.log(res))
