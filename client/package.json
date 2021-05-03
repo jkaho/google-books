@@ -1,7 +1,7 @@
 {
-  "name": "mern",
-  "version": "0.1.0",
-  "description": "Mern Demo",
+  "name": "google-books",
+  "version": "1.0.0",
+  "description": "A React application for searching and savings books via the Google Books API (front-end)",
   "private": true,
   "proxy": "http://localhost:3001/",
   "dependencies": {

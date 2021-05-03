@@ -27,7 +27,6 @@ export default function Search() {
     event.preventDefault();
     // const query = searchRef.current.children[0].value;
     // setSearch(query);
-    console.log(savedBooks)
     API.searchBook(search)
       .then(res => {
         // results = res.data.items;
@@ -102,7 +101,7 @@ export default function Search() {
               <h2>Search results</h2>
             </div>
             <div className="results-heading-col2">
-              1-20 out of 20 books
+              1-{results.length} out of {results.length} books
             </div>
           </div>
           <div className="results-container">

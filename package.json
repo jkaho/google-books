@@ -1,7 +1,7 @@
 {
   "name": "google-books",
   "version": "1.0.0",
-  "description": "A React application for searching and savings books via the Google Books API.",
+  "description": "A React application for searching and savings books via the Google Books API (back-end)",
   "main": "server.js",
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
@@ -23,6 +23,7 @@
     "@material-ui/icons": "^4.11.2",
     "express": "^4.16.3",
     "if-env": "^1.0.4",
-    "mongoose": "^5.12.6"
+    "mongoose": "^5.12.6",
+    "socket-io": "^1.0.0"
   }
 }

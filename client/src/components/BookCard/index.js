@@ -89,7 +89,9 @@ export default function BookCard(props) {
                       : false
                     }
                   >
-                    {props.saved ? "Saved" : "Save"}
+                    {props.saved ? "Saved"
+                    : disabledButton ? "Saved"
+                    : "Save"}
                   </button>
                 </div>
               }
@@ -98,10 +100,6 @@ export default function BookCard(props) {
         </div>
         <div className="book-content-authors">
           {renderAuthors(props.authors)}
-          {/* {props.authors ? props.authors.map(author => (
-            author 
-            )) : "No author"
-          } */}
         </div>
         <div className="book-content-description">
           {props.description}

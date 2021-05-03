@@ -30,14 +30,16 @@ export default function Navbar() {
       <AppBar position="static" className={classes.appBar} elevation={0}>
         <Toolbar>
           <div className="app-logo">
-            <span id="g">G</span>
-            <span id="o">o</span>
-            <span id="o2">o</span>
-            <span id="g2">g</span>
-            <span id="l">l</span>
-            <span id="e">e</span>&nbsp;
-            <span id="books-search">Books</span>&nbsp;
-            <span id="search-span">Search</span>
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <span id="g">G</span>
+              <span id="o">o</span>
+              <span id="o2">o</span>
+              <span id="g2">g</span>
+              <span id="l">l</span>
+              <span id="e">e</span>&nbsp;
+              <span id="books-search">Books</span>&nbsp;
+              <span id="search-span">Search</span>
+            </Link>
           </div>
           <Button><Link id="search-navlink" to="/">Search</Link></Button>
           <Button><Link id="saved-navlink" to="/saved">Saved</Link></Button>
