@@ -24,6 +24,7 @@ export default function BookCard(props) {
   const classes = useStyles();
   const [disabledButton, setDisabledButton] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
+  const [popupType, setPopupType] = useState("success");
 
   const handleSaveButtonClick = () => {
     const book = {
@@ -37,8 +38,15 @@ export default function BookCard(props) {
 
     API.saveBook(book)
       .then(res => console.log(`'${props.title}' has been saved!`))
-      .then(() => setPopupOpen(true))
-      .catch(err => console.log(err));
+      .then(() => {
+        setPopupType("success");
+        setPopupOpen(true);
+      })
+      .catch(err => {
+        console.log(err);
+        setPopupType("error");
+        setPopupOpen(true);
+      });
     
     setDisabledButton(true);
   };
@@ -119,54 +127,16 @@ export default function BookCard(props) {
         </div>
       </div>
       <PopupMessage
-        severity="success"
-        message={`"${props.title}" successfully saved!`}
+        message={
+          popupType === "success" ? `"${props.title}" successfully saved!`
+          : "An error occurred, please try again later"
+        }
+        severity={
+          popupType === "success" ? "success" : "error"
+        }
         open={popupOpen}
         handleClose={handleClose}
       />
     </div>
-    // <Card
-    //   variant="outlined"
-    //   width="500px"
-    //   className={classes.root}
-    // >
-    //     <CardContent>
-    //       <Typography variant="h5">
-    //         {props.title}
-    //       </Typography>
-    //       <Typography variant="subtitle1">
-    //         By&nbsp;
-    //         {props.authors ? props.authors.map(author => (
-    //           author 
-    //           )) : "Anonymous"
-    //         }
-    //       </Typography>
-    //       <Typography variant="body1">
-    //         {props.description}
-    //       </Typography>
-    //     </CardContent>
-    //     <CardMedia
-    //       component="img"
-    //       alt={props.imgAlt}
-    //       image={props.img}
-    //       className={classes.image}
-    //     />
-    //   <CardActions>
-        // {window.location.href === "http://localhost:3000/" ?
-        //   <div>
-        //     <Button variant="contained"><a href={props.link} target="_blank" rel="noreferrer noopener">View</a></Button>
-        //     <Button
-        //       variant="contained"
-        //       onClick={handleSaveButtonClick}
-        //       disabled={props.saved ? true : false}
-        //     >
-        //       Save
-        //     </Button>
-        //   </div>
-        //   : <div><Button variant="contained" onClick={() => props.onClick(props.id)}>Remove</Button></div>
-        // }
-
-    //   </CardActions>
-    // </Card>
   )
 }

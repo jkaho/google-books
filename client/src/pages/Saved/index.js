@@ -9,6 +9,7 @@ export default function Saved() {
   const [savedBooks, setSavedBooks] = useState([]);
   const [popupOpen, setPopupOpen] = useState(false);
   const [titleToRemove, setTitleToRemove] = useState("");
+  const [popupType, setPopupType] = useState("success");
 
   useEffect(() => {
     loadSavedBooks();
@@ -29,10 +30,17 @@ export default function Saved() {
         console.log(res.data);
         setTitleToRemove(res.data.title);
       })
-      .then(() => setPopupOpen(true))
+      .then(() => {
+        setPopupType("success");
+        setPopupOpen(true);
+      })
       // .then(() => window.location.reload())
       .then(() => loadSavedBooks())
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err);
+        setPopupType("error");
+        setPopupOpen(true);
+      })
   };
 
   // Handle close for popup message
@@ -69,8 +77,13 @@ export default function Saved() {
           </div>
         }
         <PopupMessage
-          message={`"${titleToRemove}" successfully removed`}
-          severity="success"
+          message={
+            popupType === "success" ? `"${titleToRemove}" successfully removed`
+            : "An error occurred, please try again later"
+          }
+          severity={
+            popupType === "success" ? "success" : "error"
+          }
           handleClose={handleClose}
           open={popupOpen}
         />
