@@ -62,14 +62,14 @@ export default function Search() {
                   return;
                 } 
               });
-            } else {
+            } else if (savedBooksStatic) {
               savedBooksStatic.forEach(savedBook => {
                 if (savedBook.bookId === result.id) {
                   bookSaved = true;
                   return;
                 } 
               });
-            }
+            } 
 
             if (bookSaved) {
               bookInfo.saved = true;
@@ -96,7 +96,6 @@ export default function Search() {
       .then(res => {
         setSavedBooks(res.data);
         savedBooksStatic = res.data;
-        console.log(savedBooksStatic)
       })
       .catch(err => {
         console.log(err);
