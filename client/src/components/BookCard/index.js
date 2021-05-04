@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import PopupMessage from "../PopupMessage";
 // import Card from "@material-ui/core/Card";
 // import { CardActionArea, CardActions, CardContent, CardMedia, Typography, Button, Grid } from "@material-ui/core";
 import API from "../../utils/API";
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 export default function BookCard(props) {
   const classes = useStyles();
   const [disabledButton, setDisabledButton] = useState(false);
+  const [popupOpen, setPopupOpen] = useState(false);
 
   const handleSaveButtonClick = () => {
     const book = {
@@ -35,6 +37,7 @@ export default function BookCard(props) {
 
     API.saveBook(book)
       .then(res => console.log(`'${props.title}' has been saved!`))
+      .then(() => setPopupOpen(true))
       .catch(err => console.log(err));
     
     setDisabledButton(true);
@@ -62,6 +65,16 @@ export default function BookCard(props) {
       return authorStr;
     }
   };
+
+  // Handle close for popup message
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setPopupOpen(false);
+  };
+
 
   return (
     <div className="book-card">
@@ -105,6 +118,12 @@ export default function BookCard(props) {
           {props.description}
         </div>
       </div>
+      <PopupMessage
+        severity="success"
+        message={`"${props.title}" successfully saved!`}
+        open={popupOpen}
+        handleClose={handleClose}
+      />
     </div>
     // <Card
     //   variant="outlined"

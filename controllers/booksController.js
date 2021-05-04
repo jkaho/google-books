@@ -22,7 +22,7 @@ const booksController = {
   },
   delete: function(req, res) {
     db.Book
-      .deleteOne({ bookId: req.params.id })
+      .findOneAndDelete({ bookId: req.params.id })
       .then(model => res.json(model))
       .catch(err => res.status(422).json(err))
   }

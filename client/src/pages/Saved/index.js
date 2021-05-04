@@ -3,9 +3,12 @@ import API from "../../utils/API";
 import Typography from "@material-ui/core/Typography";
 import BookCard from "../../components/BookCard";
 import "./style.css";
+import PopupMessage from "../../components/PopupMessage";
 
 export default function Saved() {
   const [savedBooks, setSavedBooks] = useState([]);
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [titleToRemove, setTitleToRemove] = useState("");
 
   useEffect(() => {
     loadSavedBooks();
@@ -22,12 +25,25 @@ export default function Saved() {
   const handleRemoveButtonClick = (id) => {
     API.removeBook(id)
       // .then(res => console.log(`'${props.title}' has been removed from your saved books.`))
-      .then(res => console.log(res))
+      .then(res => {
+        console.log(res.data);
+        setTitleToRemove(res.data.title);
+      })
+      .then(() => setPopupOpen(true))
       // .then(() => window.location.reload())
       .then(() => loadSavedBooks())
       .catch(err => console.log(err))
   };
 
+  // Handle close for popup message
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setPopupOpen(false);
+  };
+  
   return (
     <div>
       <div className="saved-container">
@@ -52,6 +68,12 @@ export default function Saved() {
             <h2>No saved books</h2>
           </div>
         }
+        <PopupMessage
+          message={`"${titleToRemove}" successfully removed`}
+          severity="success"
+          handleClose={handleClose}
+          open={popupOpen}
+        />
       </div>
     </div>
   );

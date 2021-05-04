@@ -9,6 +9,7 @@ export default function Search() {
   const [search, setSearch] = useState("google");
   const [results, setResults] = useState([]);
   const [savedBooks, setSavedBooks] = useState([]);
+  const [searchWord, setSearchWord] = useState("google");
   let savedBooksStatic;
 
   const searchRef = useRef();
@@ -19,7 +20,7 @@ export default function Search() {
   }, []);
 
   const handleSearchInput = () => {
-    const value = searchRef.current.children[0].value;
+    const value = searchRef.current.children[0].value.trim();
     setSearch(value);
   };
 
@@ -27,6 +28,7 @@ export default function Search() {
     event.preventDefault();
     // const query = searchRef.current.children[0].value;
     // setSearch(query);
+    setSearchWord(searchRef.current.children[0].value.trim());
     API.searchBook(search)
       .then(res => {
         // results = res.data.items;
@@ -109,7 +111,7 @@ export default function Search() {
         <div>
           <div className="book-results-heading">
             <div className="results-heading-col1">
-              <h2>Search results</h2>
+              <h2>Search results for "{searchWord ? searchWord : "google"}"</h2>
             </div>
             <div className="results-heading-col2">
               1-{results.length} out of {results.length} books
