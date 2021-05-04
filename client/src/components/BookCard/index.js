@@ -99,7 +99,7 @@ export default function BookCard(props) {
           </div>
           <div className="heading-col2">
             <div className="book-actions">
-              {window.location.href === "http://localhost:3000/saved" ?
+              {window.location.href === "https://jkaho-google-books.herokuapp.com/saved" ?
                 <div><button className="remove-book-btn" onClick={() => props.onClick(props.id)}>Remove</button></div>
                 : 
                 <div>
