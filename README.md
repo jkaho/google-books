@@ -2,7 +2,7 @@
 
 ## Description 
 
-*Google Books Search* is, as its name suggests, an application for searching books!
+*Google Books Search* is, as its name suggests, an application for searching books! Users may also save books of interest.
 
 ## Instructions 
 
@@ -28,8 +28,10 @@
 ## Screenshots 
 
 ### Search page 
+![Google Books Search app search page](screenshots/search.png)
 
 ### Saved books page 
+![Google Books Search app saved page](screenshots/saved.png)
 
 ## Link
 
