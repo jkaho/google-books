@@ -7,8 +7,8 @@ import PopupMessage from "../../components/PopupMessage";
 
 export default function Saved() {
   const [savedBooks, setSavedBooks] = useState([]);
-  const [popupOpen, setPopupOpen] = useState(false);
   const [titleToRemove, setTitleToRemove] = useState("");
+  const [popupOpen, setPopupOpen] = useState(false);
   const [popupType, setPopupType] = useState("success");
 
   useEffect(() => {
@@ -20,7 +20,11 @@ export default function Saved() {
       .then(res => {
         setSavedBooks(res.data.reverse());
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        setPopupType("error");
+        setPopupOpen(true);
+      });
   };
 
   const handleRemoveButtonClick = (id) => {
@@ -40,7 +44,7 @@ export default function Saved() {
         console.log(err);
         setPopupType("error");
         setPopupOpen(true);
-      })
+      });
   };
 
   // Handle close for popup message

@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import API from "../../utils/API";
 import SearchForm from "../../components/SearchForm";
 import BookCard from "../../components/BookCard";
-import { CenterFocusStrongOutlined } from "@material-ui/icons";
+import PopupMessage from "../../components/PopupMessage";
 import "./style.css";
 
 export default function Search() {
@@ -10,33 +10,32 @@ export default function Search() {
   const [results, setResults] = useState([]);
   const [savedBooks, setSavedBooks] = useState([]);
   const [searchWord, setSearchWord] = useState("google");
+  const [popupOpen, setPopupOpen] = useState(false);
+  const searchRef = useRef();
   let savedBooksStatic;
 
-  const searchRef = useRef();
-
   useEffect(() => {
+    // Load saved books upon first render to determine which btns should be disabled
     loadSavedBooks();
-    handleSearchButtonClick(event, search);
+    // Default search for "google"
+    handleSearchFormSubmit(event, search);
   }, []);
 
+  // Change query value on input change
   const handleSearchInput = () => {
     const value = searchRef.current.children[0].value.trim();
     setSearch(value);
   };
 
-  const handleSearchButtonClick = (event, search) => {
+  // Make GET request to Google Books API on form submit
+  const handleSearchFormSubmit = (event, search) => {
     event.preventDefault();
-    // const query = searchRef.current.children[0].value;
-    // setSearch(query);
     setSearchWord(searchRef.current.children[0].value.trim());
     API.searchBook(search)
       .then(res => {
-        // results = res.data.items;
-        // setResults(res.data.items);
         searchRef.current.children[0].value = "";
         let searchResults = res.data.items;
         let neatResults = [];
-        console.log(searchResults)
 
         searchResults.forEach(result => {
           let bookInfo = {};
@@ -86,7 +85,10 @@ export default function Search() {
         });
         setResults(neatResults);
       })
-      .catch(err => console.log(err));
+      .catch(err => { 
+        console.log(err);
+        setPopupOpen(true);
+      });
   };
 
   const loadSavedBooks = () => {
@@ -96,7 +98,19 @@ export default function Search() {
         savedBooksStatic = res.data;
         console.log(savedBooksStatic)
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        setPopupOpen(true);
+      });
+  };
+
+  // Handle close for popup message
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setPopupOpen(false);
   };
 
   return (
@@ -104,7 +118,7 @@ export default function Search() {
       <SearchForm
         onChange={handleSearchInput}
         referrer={searchRef}
-        onSubmit={handleSearchButtonClick}
+        onSubmit={handleSearchFormSubmit}
         search={search}
       />
       {results.length > 0 ? 
@@ -138,6 +152,12 @@ export default function Search() {
           <h2>No results found</h2>
         </div>
       }
+      <PopupMessage
+        message="An error occurred, please try again later"
+        severity="error"
+        handleClose={handleClose}
+        open={popupOpen}
+      />
     </div>
   );
 };
