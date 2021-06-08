@@ -2,13 +2,13 @@
 
 ## Description 
 
-*Google Books Search* is, as its name suggests, an application for searching books! Users may also save books of interest.
+*Google Books Search* is, as its name suggests, an application for searching books! Users may also save books of interest for future reference.
 
 ## Instructions 
 
 1. Enter a book title or title keyword into the searchbar to display a list of search results (with basic book info).
 2. Click the *View on Google* button of a particular book to be taken to the Google Books preview page of that book. 
-3. Click the *Save* button of a book to save it to your 'Saved' page for future reference.
+3. Click the *Save* button of a book to save it to your 'Saved' page.
 
 ## Technologies Used
 
