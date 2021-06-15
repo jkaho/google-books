@@ -6,38 +6,57 @@ import PopupMessage from "../../components/PopupMessage";
 import "./style.css";
 
 export default function Search() {
-  const [search, setSearch] = useState("google");
+  // const [search, setSearch] = useState("bing");
   const [results, setResults] = useState([]);
   const [savedBooks, setSavedBooks] = useState([]);
-  const [searchWord, setSearchWord] = useState("google");
+  const [searchWord, setSearchWord] = useState("bing");
   const [popupOpen, setPopupOpen] = useState(false);
   const searchRef = useRef();
   let savedBooksStatic;
+  let query;
 
   useEffect(() => {
     // Load saved books upon first render to determine which btns should be disabled
     loadSavedBooks();
+    const url = window.location.search;
+    const searchParams1 = new URLSearchParams(url);
+    query = searchParams1.get("search");
     // Default search for "google"
-    handleSearchFormSubmit(event, search);
+    handleSearchInput(e);
   }, []);
 
   // Change query value on input change
-  const handleSearchInput = () => {
-    const value = searchRef.current.children[0].value.trim();
-    setSearch(value);
-  };
-
-  // Make GET request to Google Books API on form submit
-  const handleSearchFormSubmit = (event, search) => {
-    event.preventDefault();
-    setSearchWord(searchRef.current.children[0].value.trim());
-    API.searchBook(search)
+  const handleSearchInput = (e) => {
+    // const value = searchRef.current.children[0].value.trim();
+    let value;
+    if (e.target === undefined && query !== null) {
+      value = query;
+      setSearchWord(value);
+    } else if (e.target !== undefined) {
+      value = e.target.value.trim();
+      setSearchWord(value);
+    } else {
+      value = searchWord;
+    }
+    // setSearch(value);
+    API.searchBook(value)
       .then(res => {
-        searchRef.current.children[0].value = "";
+        // searchRef.current.children[0].value = "";
         let searchResults = res.data.items;
+        let searchResultsNoRepeat = [];
+        let searchResultsIds = [];
         let neatResults = [];
 
-        searchResults.forEach(result => {
+        for (let i = 0; i < searchResults.length; i++) {
+          if (searchResultsIds.includes(searchResults[i].id)) {
+            continue;
+          } else {
+            searchResultsIds.push(searchResults[i].id);
+            searchResultsNoRepeat.push(searchResults[i]);
+          }
+        }
+
+        searchResultsNoRepeat.forEach(result => {
           let bookInfo = {};
           bookInfo.id = result.id;
           bookInfo.title = result.volumeInfo.title;
@@ -91,6 +110,70 @@ export default function Search() {
       });
   };
 
+  // Make GET request to Google Books API on form submit
+  const handleSearchFormSubmit = (event, search) => {
+    event.preventDefault();
+    // setSearchWord(searchRef.current.children[0].value.trim());
+    // API.searchBook(search)
+    //   .then(res => {
+    //     // searchRef.current.children[0].value = "";
+    //     let searchResults = res.data.items;
+    //     let neatResults = [];
+
+    //     searchResults.forEach(result => {
+    //       let bookInfo = {};
+    //       bookInfo.id = result.id;
+    //       bookInfo.title = result.volumeInfo.title;
+    //       result.volumeInfo.authors ?
+    //         bookInfo.authors = result.volumeInfo.authors :
+    //         bookInfo.authors = ""
+    //       result.volumeInfo.imageLinks ?
+    //         bookInfo.image = result.volumeInfo.imageLinks.thumbnail :
+    //         bookInfo.image = ""
+    //       result.volumeInfo.previewLink ?
+    //         bookInfo.link = result.volumeInfo.previewLink :
+    //         bookInfo.link = ""
+    //       result.volumeInfo.description ?
+    //         bookInfo.description = result.volumeInfo.description :
+    //         bookInfo.description = "No description available for this book."
+
+    //         let bookSaved = false;
+    //         if (savedBooks.length > 0) {
+    //           savedBooks.forEach(savedBook => {
+    //             if (savedBook.bookId === result.id) {
+    //               bookSaved = true;
+    //               return;
+    //             } 
+    //           });
+    //         } else if (savedBooksStatic) {
+    //           savedBooksStatic.forEach(savedBook => {
+    //             if (savedBook.bookId === result.id) {
+    //               bookSaved = true;
+    //               return;
+    //             } 
+    //           });
+    //         } 
+
+    //         if (bookSaved) {
+    //           bookInfo.saved = true;
+    //         } else {
+    //           bookInfo.saved = false;
+    //         }
+
+    //       function pushResults() {
+    //         neatResults.push(bookInfo);
+    //       };
+
+    //       pushResults();
+    //     });
+    //     setResults(neatResults);
+    //   })
+    //   .catch(err => { 
+    //     console.log(err);
+    //     setPopupOpen(true);
+    //   });
+  };
+
   const loadSavedBooks = () => {
     API.getSavedBooks()
       .then(res => {
@@ -118,13 +201,13 @@ export default function Search() {
         onChange={handleSearchInput}
         referrer={searchRef}
         onSubmit={handleSearchFormSubmit}
-        search={search}
+        search={searchWord}
       />
       {results.length > 0 ? 
         <div>
           <div className="book-results-heading">
             <div className="results-heading-col1">
-              <h2>Search results for "{searchWord ? searchWord : "google"}"</h2>
+              <h2>Search results for "{searchWord}"</h2>
             </div>
             <div className="results-heading-col2">
               1-{results.length} out of {results.length} books
